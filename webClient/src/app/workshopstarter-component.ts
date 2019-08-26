@@ -15,6 +15,7 @@ import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
+import { ZoweNotification } from '../../../../zlux-platform/base/src/notification-manager/notification'
 
 import { Angular2InjectionTokens } from 'pluginlib/inject-resources';
 
@@ -111,6 +112,12 @@ export class WorkshopStarterComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
+  }
+
+  sendMessage(e: any): void {
+    console.log(e)
+    let test = new ZoweNotification(e, 1,"org.zowe.zlux.bootstrap")
+    ZoweZLUX.zoweNotificationManager.push(test)
   }
 
   /**

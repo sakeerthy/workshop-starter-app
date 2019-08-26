@@ -9,7 +9,7 @@
   Copyright Contributors to the Zowe Project.
 -->
 <div class="parent col-11" id="workshopstarterPluginUI">
-  <div class="fixed-height-child include-in-calculation">
+  <!-- <div class="fixed-height-child include-in-calculation">
       <button type="button" class="wide-button btn btn-default" (click)="requestApp()" value="Send">
         Find Users from Lookup Directory
       </button>
@@ -22,11 +22,13 @@
   <div class="fixed-height-child include-in-calculation" style="height: 20px; order: 3"></div>
   <div style="max-width:100%; word-wrap: break-word;">
     <b>Operation Result: </b><br>{{userResults}}
-  </div>
+  </div> -->
+<div>
+  <input #test id="textbox" type="text">
+  <button (click)="sendMessage(test.value)">Send</button>
 </div>
-<div class="workshopstarter-spinner-position">
-  <i class="fa fa-spinner fa-spin fa-3x" *ngIf="resultNotReady"></i>
 </div>
+
 <!-- 
   This program and the accompanying materials are
   made available under the terms of the Eclipse Public License v2.0 which accompanies
