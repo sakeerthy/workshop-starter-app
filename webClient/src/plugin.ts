@@ -8,8 +8,8 @@
   
   Copyright Contributors to the Zowe Project.
 */
-export { WorkshopStarterModule as pluginModule } from './app/workshopstarter.module';
-export { WorkshopStarterComponent as pluginComponent } from './app/workshopstarter-component';
+export { AdminNotificationModule as pluginModule } from './app/adminnotification.module';
+export { AdminNotificationComponent as pluginComponent } from './app/adminnotification-component';
 
 /*
   This program and the accompanying materials are

@@ -8,22 +8,47 @@
   
   Copyright Contributors to the Zowe Project.
 */
+.parent {
+  flex-direction: column;
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+  height: 100%;
+  max-width: 100%;
+  overflow-y: hidden;
+  margin: auto;
+}
 
-import { WorkshopStarterComponent } from './workshopstarter-component';
+.everyone {
+  margin-left: 10px;
+}
 
-@NgModule({
-  imports: [FormsModule, HttpModule, ReactiveFormsModule, CommonModule],
-  declarations: [WorkshopStarterComponent],
-  exports: [WorkshopStarterComponent],
-  entryComponents: [WorkshopStarterComponent]
-})
-export class WorkshopStarterModule { }
+.username {
+  margin-right: 10px;
+  /* width: 80%; */
+  /* text-align: center; */
+}
 
+.message {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.recipient {
+  margin-top: 10px;
+}
+
+.recipient-options {
+  margin-top: 10px;
+}
+
+.recipient-label {
+  float: left;
+  margin-right: 10px;
+}
+
+.notification-title-label{
+  float: left;
+  margin-right: 10px;
+}
 /*
   This program and the accompanying materials are
   made available under the terms of the Eclipse Public License v2.0 which accompanies

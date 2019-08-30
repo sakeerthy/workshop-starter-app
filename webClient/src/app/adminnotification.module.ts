@@ -9,43 +9,20 @@
   Copyright Contributors to the Zowe Project.
 */
 
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
-.workshopstarter-spinner-position {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
+import { AdminNotificationComponent } from './adminnotification-component';
 
-.wide-button {
-  margin-top: 7px;
-  margin-bottom: 7px;
-  width: 100%;
-}
-
-.parent {
-  flex-direction: column;
-
-  height: 100%;
-  max-width: 100%;
-  overflow-y: hidden;
-  margin: auto;
-}
-
-.container {
-  display: flex;
-  flex: 1 1 auto;
-  overflow: hidden;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-
-}
-
-.fixed-height-child {
-  /*order: 1;*/
-  flex: 0 0 auto;
-  align-self: auto;
-}
+@NgModule({
+  imports: [FormsModule, HttpModule, ReactiveFormsModule, CommonModule],
+  declarations: [AdminNotificationComponent],
+  exports: [AdminNotificationComponent],
+  entryComponents: [AdminNotificationComponent]
+})
+export class AdminNotificationModule { }
 
 /*
   This program and the accompanying materials are
