@@ -11,14 +11,14 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { WorkshopStarterModule } from './app/workshopstarter.module';
+import { AdminNotificationModule } from './app/adminnotification.module';
 import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(WorkshopStarterModule);
+platformBrowserDynamic().bootstrapModule(AdminNotificationModule);
 
 /*
   This program and the accompanying materials are

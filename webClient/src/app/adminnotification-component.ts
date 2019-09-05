@@ -9,53 +9,46 @@
   Copyright Contributors to the Zowe Project.
 */
 
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {Http} from '@angular/http';
 import { ZoweNotification } from '../../../../zlux-platform/base/src/notification-manager/notification'
+import { Angular2InjectionTokens } from 'pluginlib/inject-resources';
 
 @Component({
   selector: 'adminnotification',
   templateUrl: 'adminnotification-component.html',
-  styleUrls: ['adminnotification-component.css']
+  styleUrls: ['adminnotification-component.scss']
 })
 
-export class AdminNotificationComponent implements OnInit, AfterViewInit {
-  public broadcast: boolean;
-  private url: string;
+export class AdminNotificationComponent {
   public response: string;
+  items: any;
+  recipient: string;
 
-  constructor(private http: Http) {
-    this.broadcast = true;
+  constructor(private http: Http,
+    @Inject(Angular2InjectionTokens.PLUGIN_DEFINITION) private pluginDefinition: ZLUX.ContainerPluginDefinition,
+    ) {
     this.response = "";
+    this.items = [{content: 'Everyone'}, {content: "Individual"}]
+    this.recipient = "Everyone"
   }
 
-  ngOnInit(): void {
- 
-  }
-
-  ngAfterViewInit(): void {
-
-  }
-
-  onChange(e: any): void {
-    console.log(e.target)
-    if (e.target.value == "individual") {
-      this.broadcast = false
-      console.log(this.broadcast)
-    } else if (e.target.value == "everyone") {
-      this.broadcast = true
-      console.log(this.broadcast)
+  selected(e: any): void {
+    this.recipient = e.item.content
+    if (e.item.content === "Everyone") {
+      this.recipient = e.item.content
+    } else if (e.item.content === "Individual") {
+      this.recipient = ""
     }
   }
 
-  sendRest(username: string, title: string, message: string): void {
-    console.log(username)
-    console.log(title)
+  sendRest(title: string, message: string): void {
     let url: string;
     let notification = new ZoweNotification(title, message, 1, "org.zowe.zlux.bootstrap")
+
     ZoweZLUX.pluginManager.loadPlugins('bootstrap').then((res: any) => {
       url = ZoweZLUX.uriBroker.pluginRESTUri(res[0], 'adminnotificationdata', '') + 'write'
-      if (this.broadcast) {
+      if (this.recipient === "Everyone") {
         this.http.post(url, {"notification": notification, "recipient": "everyone"})
         .subscribe(
           res => {
@@ -65,7 +58,7 @@ export class AdminNotificationComponent implements OnInit, AfterViewInit {
             this.response = JSON.parse(error['_body']).Response
           })
       } else {
-        this.http.post(url, {"username": username, "notification":notification, "recipient": "individual"})
+        this.http.post(url, {"username": this.recipient, "notification":notification, "recipient": "individual"})
         .subscribe(
           res => {
             this.response = JSON.parse(res['_body']).Response
@@ -76,6 +69,23 @@ export class AdminNotificationComponent implements OnInit, AfterViewInit {
         )
       }
     })
+  }
+
+  testFunction(): void {  
+    let pluginId = this.pluginDefinition.getBasePlugin().getIdentifier()
+    let notification = new ZoweNotification("Test", "This notifications should produce a different icon", 1, pluginId)
+
+    ZoweZLUX.pluginManager.loadPlugins('bootstrap').then((res: any) => {
+      let url = ZoweZLUX.uriBroker.pluginRESTUri(res[0], 'adminnotificationdata', '') + 'write'
+        this.http.post(url, {"notification": notification, "recipient": "everyone"})
+        .subscribe(
+          res => {
+            this.response = JSON.parse(res['_body']).Response
+          },
+          error => {
+            this.response = JSON.parse(error['_body']).Response
+          })
+        })
   }
 }
 

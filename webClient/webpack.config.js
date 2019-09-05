@@ -24,7 +24,19 @@ var config = {
   ],
   'output': {
     'path': path.resolve(__dirname, '../web'),
-    'filename': 'main.js',
+    'filename': 'main.js'
+  },
+  'module': {
+    'rules': [
+      {'test': /\.scss$/,
+      'use': [
+  'exports-loader?module.exports.toString()',
+  {'loader': 'style-loader'},
+  {'loader': 'css-loader'},
+  {'loader': 'sass-loader'}
+              ],
+},
+    ]
   },
   'plugins': [
     new CopyWebpackPlugin([
@@ -33,7 +45,8 @@ var config = {
         to: path.resolve('../web/assets')
       }
     ])
-  ]
+  ],
+
 };
 
 module.exports = new webpackConfig.Config()

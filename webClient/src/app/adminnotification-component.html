@@ -9,37 +9,37 @@
   Copyright Contributors to the Zowe Project.
 -->
 <div class="parent col-11" id="workshopstarterPluginUI">
-  <div>
+  <div class="recipient-label">
+    Send To:
+  </div>
+  <div class="outer-input">
+    <div class="recipient-input-container">
+      <input ibmText class="recipient-input" type="text" placeholder="Enter Recipient" [(ngModel)]="recipient">
+    </div>
     <div class="recipient">
-      <h5 class="recipient-label">Recipient: </h5> 
-      <h5 [hidden]="!broadcast">Everyone</h5>
-      <input class="username" [hidden]="broadcast" #username id="username" type="text" placeholder="Username">
-      <!-- <input class="username" [hidden]="!broadcast" #username id="username" type="text" value="Everyone" disabled> -->
-      <div class="recipient-options">
-          <input #individual type="radio" id="individual" name="recipient" value="individual" (change)="onChange($event)">
-          <label for="individual">Individual</label>
-          <input class="everyone" #everyone type="radio" id="everyone" name="recipient" value="everyone" (change)="onChange($event)" checked>
-          <label for="everyone">Everyone</label>
+      <ibm-dropdown class="recipient-dropdown" (selected)="selected($event)">
+        <ibm-dropdown-list [items]="items"></ibm-dropdown-list>
+      </ibm-dropdown>  
+    </div>
+  </div>
+  <div>
+    <div class="notification-info">
+      <div class="notification-label">Notification: </div>
+      <div class="notification-info">
+        <input ibmText #title class="notification-title" type="text" placeholder="Title">
+      </div>
+      <div class="message">
+        <textarea ibmTextArea rows="5" class="message" #message id="message" type="text" placeholder="Message"></textarea>
+      </div>
+      <div class="send-notification">
+        <button class="send-notification-button" (click)="sendRest(title.value, message.value)">Send</button>
       </div>
     </div>
-    <div class="notification-info">
-        <h5 class="notification-label">Notification: </h5>
-        <div class="notification-info">
-          <h6 class="notification-title-label">Title: </h6>
-          <input #title class="notification-title" type="text" placeholder="Title">
-        </div>
-        <div class="message">
-            <h6>Message:</h6>
-            <textarea cols="50" rows="5" class="message" #message id="message" type="text" placeholder="Message"></textarea>
-          </div>
-          <button (click)="sendRest(username.value, title.value, message.value)">Send</button>
-
-    </div>
-</div>
-<div class="response">
-  Response: {{response}}
-</div>
-
+  </div>
+  <div class="response">
+    Response: {{response}}
+  </div>
+  <button ibmButton  (click)="testFunction()">Test</button>
 </div>
 
 <!-- 
