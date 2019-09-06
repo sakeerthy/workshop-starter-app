@@ -15,13 +15,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AdminNotificationComponent } from './adminnotification-component';
-import {ButtonModule} from '@rocketsoftware/carbon-components-angular'
 import {RadioModule} from '@rocketsoftware/carbon-components-angular'
 import {InputModule} from '@rocketsoftware/carbon-components-angular'
 import {DropdownModule} from '@rocketsoftware/carbon-components-angular'
 
 @NgModule({
-  imports: [FormsModule, HttpModule, ReactiveFormsModule, CommonModule, ButtonModule, RadioModule, InputModule, DropdownModule],
+  imports: [FormsModule, HttpModule, ReactiveFormsModule, CommonModule, RadioModule, InputModule, DropdownModule],
   declarations: [AdminNotificationComponent],
   exports: [AdminNotificationComponent],
   entryComponents: [AdminNotificationComponent]

@@ -14,6 +14,9 @@ import {Http} from '@angular/http';
 import { ZoweNotification } from '../../../../zlux-platform/base/src/notification-manager/notification'
 import { Angular2InjectionTokens } from 'pluginlib/inject-resources';
 
+const EVERYONE = "Everyone";
+const INDIVIDUAL = "Individual";
+
 @Component({
   selector: 'adminnotification',
   templateUrl: 'adminnotification-component.html',
@@ -21,24 +24,28 @@ import { Angular2InjectionTokens } from 'pluginlib/inject-resources';
 })
 
 export class AdminNotificationComponent {
-  public response: string;
-  items: any;
-  recipient: string;
-
+  private response: string;
+  private items: any;
+  private recipient: string;
+  private displayText: boolean;
+  
   constructor(private http: Http,
     @Inject(Angular2InjectionTokens.PLUGIN_DEFINITION) private pluginDefinition: ZLUX.ContainerPluginDefinition,
     ) {
     this.response = "";
-    this.items = [{content: 'Everyone'}, {content: "Individual"}]
-    this.recipient = "Everyone"
+    this.items = [{content: EVERYONE}, {content: INDIVIDUAL}]
+    this.recipient = EVERYONE
+    this.displayText = true;
   }
 
   selected(e: any): void {
     this.recipient = e.item.content
-    if (e.item.content === "Everyone") {
+    if (e.item.content === EVERYONE) {
       this.recipient = e.item.content
-    } else if (e.item.content === "Individual") {
+      this.displayText = true;
+    } else if (e.item.content === INDIVIDUAL) {
       this.recipient = ""
+      this.displayText = false;
     }
   }
 
@@ -48,8 +55,8 @@ export class AdminNotificationComponent {
 
     ZoweZLUX.pluginManager.loadPlugins('bootstrap').then((res: any) => {
       url = ZoweZLUX.uriBroker.pluginRESTUri(res[0], 'adminnotificationdata', '') + 'write'
-      if (this.recipient === "Everyone") {
-        this.http.post(url, {"notification": notification, "recipient": "everyone"})
+      if (this.recipient === EVERYONE) {
+        this.http.post(url, {"notification": notification, "recipient": EVERYONE})
         .subscribe(
           res => {
             this.response = JSON.parse(res['_body']).Response
@@ -58,7 +65,7 @@ export class AdminNotificationComponent {
             this.response = JSON.parse(error['_body']).Response
           })
       } else {
-        this.http.post(url, {"username": this.recipient, "notification":notification, "recipient": "individual"})
+        this.http.post(url, {"username": this.recipient, "notification":notification, "recipient": INDIVIDUAL})
         .subscribe(
           res => {
             this.response = JSON.parse(res['_body']).Response
@@ -69,23 +76,6 @@ export class AdminNotificationComponent {
         )
       }
     })
-  }
-
-  testFunction(): void {  
-    let pluginId = this.pluginDefinition.getBasePlugin().getIdentifier()
-    let notification = new ZoweNotification("Test", "This notifications should produce a different icon", 1, pluginId)
-
-    ZoweZLUX.pluginManager.loadPlugins('bootstrap').then((res: any) => {
-      let url = ZoweZLUX.uriBroker.pluginRESTUri(res[0], 'adminnotificationdata', '') + 'write'
-        this.http.post(url, {"notification": notification, "recipient": "everyone"})
-        .subscribe(
-          res => {
-            this.response = JSON.parse(res['_body']).Response
-          },
-          error => {
-            this.response = JSON.parse(error['_body']).Response
-          })
-        })
   }
 }
 
