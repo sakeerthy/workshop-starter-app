@@ -11,7 +11,6 @@
 
 import { Component, Inject } from '@angular/core';
 import {Http} from '@angular/http';
-import { ZoweNotification } from '../../../../zlux-platform/base/src/notification-manager/notification'
 import { Angular2InjectionTokens } from 'pluginlib/inject-resources';
 
 const EVERYONE = "Everyone";
@@ -50,30 +49,27 @@ export class AdminNotificationComponent {
   }
 
   sendRest(title: string, message: string): void {
-    let url: string;
-    let notification = new ZoweNotification(title, message, 1, "org.zowe.zlux.bootstrap")
+    let notification = ZoweZLUX.notificationManager.createNotification(title, message, 1, "org.zowe.zlux.bootstrap")
 
     ZoweZLUX.pluginManager.loadPlugins('bootstrap').then((res: any) => {
-      url = ZoweZLUX.uriBroker.pluginRESTUri(res[0], 'adminnotificationdata', '') + 'write'
       if (this.recipient === EVERYONE) {
-        this.http.post(url, {"notification": notification, "recipient": EVERYONE})
-        .subscribe(
-          res => {
-            this.response = JSON.parse(res['_body']).Response
+        ZoweZLUX.notificationManager.serverNotify({"notification": notification, "recipient": EVERYONE})
+        .then(
+          (res: any) => {
+            res.json().then((json: any) => this.response = "Server Response: " + json.Response)
           },
-          error => {
-            this.response = JSON.parse(error['_body']).Response
+          (error: any) => {
+            error.json().then((json: any) => this.response = "Server Response: " + json.Response)
           })
       } else {
-        this.http.post(url, {"username": this.recipient, "notification":notification, "recipient": INDIVIDUAL})
-        .subscribe(
-          res => {
-            this.response = JSON.parse(res['_body']).Response
+        ZoweZLUX.notificationManager.serverNotify({"username": this.recipient, "notification": notification, "recipient": INDIVIDUAL})
+        .then(
+          (res: any) => {
+            res.json().then((json: any) => this.response = "Server Response: " + json.Response)
           },
-          error => {
-            this.response = JSON.parse(error['_body']).Response
-          }
-        )
+          (error: any) => {
+            error.json().then((json: any) => this.response = "Server Response: " + json.Response)
+          })
       }
     })
   }
